@@ -13,30 +13,17 @@ view(mlb)
 view(regular)
 view(post)
 
-# rename batting_average and post_batting_average in mlb table to reg_ba and post_ba
-mlb <- mlb %>%
-  rename(
-    reg_ba = batting_average,
-    post_ba = post_batting_average,
-    reg_obp = on_base_percent,
-    post_obp = post_on_base_percent,
-    reg_slug = slg_percent,
-    post_slug = post_slg_percent,
-    reg_ops = on_base_plus_slg,
-    post_ops = post_on_base_plus_slg
-  )
-
 # Post season vs regular season differential of continuous variables
 reg_season <- mlb %>% select(reg_ba, reg_obp, reg_slug, reg_ops)
 postseason <- mlb %>% select(post_ba, post_obp, post_slug, post_ops)
 mlb_diff <- mlb %>%
   mutate(
     diff_obp = post_obp - reg_obp,
-    diff_obp = post_slug - reg_slug,
-    diff_obp = post_ops - reg_ops,
-    diff_obp = post_ba - reg_ba
+    diff_slug = post_slug - reg_slug,
+    diff_ops = post_ops - reg_ops,
+    diff_ba = post_ba - reg_ba
   )
-summary(mlb_diff %>% select(diff_OBP, diff_SLG, diff_OPS, diff_BA))
+summary(mlb_diff %>% select(diff_obp, diff_slug, diff_ops, diff_ba))
 
 # Scatter plot of on-base percentage vs batting average
 regular <- regular %>%
